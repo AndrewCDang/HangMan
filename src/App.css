@@ -1,38 +1,400 @@
+*{
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 10vh;
+}
+.inputsContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.displayContainer{
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 35vh;
+  opacity: 1;
+  /* min-height: 400px; */
+}
+.svg-container{
+  width: 100%;
+  transform: scale(1.5) translateY(1.8vh);
+  z-index: -1;
+}
+/* Confetti/win */
+.confetti{
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}
+.confetti svg{
+  height: 120vh;
+}
+.win-container{
+  width: 100%;
+  height: 120%;
+  position: absolute;
+  z-index: -1;
+  top:-20%
+}
+.x-position{
+  left: -50%;
+}
+/* Flipping svgs */
+.flip svg{
+  transform: scale(-1,1);
+}
+/* Scaling confetti items to give depth effect */
+.scale3 svg{
+  /* height: 50%; */
+  transform: scale(0.2,1);
+  filter: brightness(1.5);
+  opacity: 0.7
+}
+.scale4  svg{
+  transform: scale(3);
+  filter: blur(5px) brightness(0.9);
+  z-index: 1;
+}
+.red rect {
+  fill: #FF5678;
+}
+
+.blue rect {
+  fill: #05C8D4;
+}
+
+.yellow rect {
+  fill: #FFD056;
+}
+
+.green rect {
+  fill: #87e84b;
+}
+
+.purple rect {
+  fill: #b94be8;
+}
+
+.delay svg{
+  animation-delay: 3s;
+}
+.delay rect{
+  animation-delay: 3s;
+}
+/* Random Word */
+.randomWord-container{
+  display: flex;
+  gap: 16px;
+}
+.randomWord-container-end{
+  gap: 0px!important;
+  transition: all 0.5s ease-in;
+}
+.randomWord{
+  display: flex;
+  justify-content: center;
+  font-size: 64px;
+  width: 40px;
+  /* overflow: hidden; */
+  border-bottom: 3px solid black;
+  user-select: none;
+  color: rgba(0, 0, 0, 0);
+}
+.randomWord-end{
+  width: auto!important;
+  transition: all 0.5s ease-in;
+}
+.displayWord{
+  transition: all 0.3s ease-out;
+  color: rgba(0, 0, 0, 1);
+  animation: displayAnimation 0.4s ease-in-out!important;
+}
+.displayWord-defeat{
+  transition: all 1s ease-out;
+  color: #FF5678;
+  animation: displayAnimation 0.6s ease-in-out!important;
+}
+@keyframes displayAnimation {
+  0% {transform: translateY(0px);}
+  40%, 60% {transform: translateY(-20px);}
+  100% {transform: translateY(0px);}
+}
+
+@keyframes jump-slow {
+  0% { transform: translateY(0); }
+  3% { transform: translateY(-50px); animation-timing-function: ease-in; }
+  5% { transform: translateY(15px); animation-timing-function: ease-in-out; }
+  10% { transform: translateY(0); animation-timing-function: ease-out; }
+}
+.randomWord-animation {
+  animation: jump-slow 10s ease-in-out infinite;
+}
+
+/* Keyboard */
+.keyboard-container{
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  /* gap:8px; */
+  margin-bottom: 8px;
+}
+.keyboard-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(20px + 4.5vw);
+  height: calc(20px + 4.5vw);
+  overflow: hidden;
+  font-size: 3vw;
+  padding: calc(6px + 1vw) calc(12px + 1.5vw);
+  border: 1px solid rgb(50, 50, 50);
+  border-radius: 8px;
+  /* backdrop-filter: blur(5px); */
+  background-color: rgba(256, 256, 256, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.35s ease-in, background-color 0.1s ease-in-out;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.keyboard-item:hover{
+  background-color: rgb(240, 240, 240);
+}
+/* Keyboard animation */
+/* Incorrect input */
+@keyframes shake-x {
+  0% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+.incorrect-input {
+  animation: shake-x 1s ease-in-out;
+  background-color: rgba(252, 67, 104, 0.5)!important;
+  pointer-events: none;
+  transition: background-color 0.3s ease-out;
+  cursor:default;
+}
+/* Correct Input */
+@keyframes jump-y {
+  0%, 100% { transform: translateY(0); }
+  15%, 60% { transform: translateY(5px); }
+  40% { transform: translateY(-10px); }
+}
+.correct-input {
+  animation: jump-y 0.5s ease-in-out ;
+  background-color: rgba(141, 243, 78, 0.5)!important;
+  pointer-events: none;
+  transition: background-color 0.3s ease-out;
+  cursor: default;
+}
+
+/* Keyboard remove */
+.keyboard-remove{
+  animation: remove-keyboard 1s;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+@keyframes remove-keyboard {
+  0% { transform: translateY(0);}
+  15%{ transform: translateY(-3vh);animation-timing-function: ease-in-out}
+  100% {transform: translateY(50vh);animation-timing-function: ease-in}
+}
+.no-pointer{
+  pointer-events: none;
+}
+.keyboard-remove-2{
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  z-index: -1;
+}
+/* Additional/tries left */
+.tries-left{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.tries-left p {
+  margin: 0;
+}
+.bold{
+  font-weight: bold;
+  font-size: 1.5em;
+}
+.additional-container{
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.help-btn{
+  background-color: white;
+  border: 2px solid rgb(50, 50, 50);
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 3;
+}
+.help-btn:hover{
+  background-color: rgb(50, 50, 50);
   color: white;
+  transition: 0.5s ease-out;
+  cursor: pointer;
+}
+.explaination p::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 8px;
+  transform: translateY(-1px);
+  border-radius: 5px;
+  border: 2px solid rgb(50, 50, 50);
+}
+.instructions-container{
+  border: 2px solid rgb(50, 50, 50);
+  padding: 8px 16px;
+  border-radius: 16px;
+  width: 100;
+  position: absolute;
+  top: -25vh;
+  background-color: white;
+  z-index: -1;
+  transition: 0.5s ease-out ;
+}
+.instr-top{
+  display: flex;
+  justify-content: space-between;
+}
+#close-instr{
+  color: rgb(50, 50, 50);
+  font-size: 20px;
+  cursor: pointer;
+}
+.hidden{
+  opacity: 0;
+}
+.whiteBackground{
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  backdrop-filter: blur(10px);
+  z-index: -2;
+  opacity: 0;
+  transition: 0.5s ease-out ;
+  top: -40vh;
+}
+.display-none{
+  display: none;
+}
+.show{
+  opacity: 1!important;
+  z-index: 2!important;
+
+}
+.z-1{
+  z-index: 1!important;
+}
+/* end game message */
+.heading{
+  font-size: calc(8px + 8vw);
+}
+.win-color{
+  background-image: linear-gradient(45deg, #FF5678 0%, #05C8D4 33%, #FFD056 66%, #FF5678 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.replay-container{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50vh;
+  top: -15vh;
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-out;
+}
+.replay-active{
+  opacity: 1!important;
+  visibility: visible!important;
+  z-index: 1!important;
+}
+.restart-btn{
+  background-color: white;
+  font-size: calc(8px + 1.5vw);
+  border: 2px solid rgb(50, 50, 50);
+  padding: 8px 16px;
+  border-radius: 16px;
+  z-index: 3;
+  width: calc( 48px + 8vw);
+  text-align: center;
+  margin: 0 auto;
+}
+.restart-btn:hover{
+  transition: all 0.2s ease-in-out;
+  color: white;
+  background-color: rgb(50, 50, 50);
+  cursor: pointer;
+}
+.hide-svg{
+  opacity: 0;
+  transition: all 0.5s ease-in;
+}
+/* Css personal template */
+.redtext {
+  color: #FF5678;
+}
+.redBackground {
+  background-color: #FF5678;
+}
+.bluetext {
+  color: #05C8D4;
+}
+.blueBackground {
+  background-color: #05C8D4;
+}
+.yellowtext {
+  color: #E9A905;
+}
+.yellowBackground {
+  background-color: #FFD056;
+}
+.greytext {
+  color: darkgray;
+}
+.greyBackground {
+  background-color: darkgray;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media screen and (max-width: 540px) {
+  .keyboard-parent{
+    transform: scale(0.7) translateY(-4vh)
   }
-  to {
-    transform: rotate(360deg);
+  .randomWord-container{
+    transform: scale(0.55);
+  }
+  .svg-container{
+    transform: scale(1.2) translateY(6vh)
+  }
+  .additional-container{
+    transform: scale(0.85);
+  }
+  .instructions-container{
+    width: 90vw;
   }
 }
