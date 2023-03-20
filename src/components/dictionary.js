@@ -1,12 +1,18 @@
 
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch } from "react-redux";
-import { inputGuessWord } from '../store/hangMan';
+import { useDispatch, useSelector } from "react-redux";
+import { inputGuessWord, inputDefinition } from '../store/hangMan';
 
 
 const Dictionary = () => {
     const containerRef = useRef(null);
     const dispatch = useDispatch();
+    const definition =useSelector(state => state.hangManGame.definition)
+
+    // Random Num function
+    function getRandomArbitrary(min, max) {
+        return ((Math.random() * (max - min) + min)).toFixed();
+    }
 
     // Copy Pasting words from text file into container
     const wordsAll = `
@@ -77473,17 +77479,63 @@ const Dictionary = () => {
     // Splitting words into array, into seperate letters characters to compare to selected input
     const charactersArray = randomWord.split('');
 
-
-    // UseEffect hook to set random word on load/reload
-    useEffect(()=>{
-        function getRandomArbitrary(min, max) {
-            return ((Math.random() * (max - min) + min)).toFixed();
-        }
+    // Function which gets random word from array
+    const getRandomWord = () => {
         const randomWordNum = getRandomArbitrary(0, selectedWords.length);
-        const inputGuess = selectedWords[randomWordNum];
-        setRandomWord(inputGuess);
-        dispatch(inputGuessWord(inputGuess))
-    },[])
+        return selectedWords[randomWordNum];
+    }
+    // Setting fail count, so when its inputted into 'setRandomWord', faill message will be unqiue and update subsequent hooks
+    const [failNum, setFailNum] = useState(1);
+
+     // Calls upon dictionary API, using random word as argument, API defines the random word and then function sets definition state
+     async function fetchDefinition() {
+        try {
+          const request = getRandomWord();
+          const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${request}`);
+          const attempt = await response.json();
+          if (attempt && attempt[0] && attempt[0].meanings && attempt[0].meanings[0] && attempt[0].meanings[0].definitions) {
+            const attemptMsg = attempt[0].meanings[0].definitions[0].definition;
+            if (attemptMsg && attemptMsg !== '') {
+              dispatch(inputDefinition(attemptMsg));
+              dispatch(inputGuessWord(attempt[0].word));
+              setRandomWord(attempt[0].word);
+            } else {
+              console.log('No Definitions of word found, fetching with new word');
+              setRandomWord(`#failed${failNum}`);
+              setFailNum(failNum + 1);
+            }
+          } else {
+            console.log('No Definitions of word found, fetching with new word');
+            setRandomWord(`#failed${failNum}`);
+            setFailNum(failNum + 1);
+          }
+        } catch (error) {
+          console.log('Error:', error);
+          setRandomWord(`#failed${failNum}`);
+        setFailNum(failNum + 1);
+        }
+      }
+    // Calls function which sets word and definition
+    useEffect(() => {
+          fetchDefinition();
+      }, []);
+    
+    // Created function which sets word with no definition in the event the API is down/ not working
+    async function fetchWithNoDefinition() {
+        const request = getRandomWord();
+        dispatch(inputGuessWord(request));
+        setRandomWord(request);
+        dispatch(inputDefinition('No definition/hint of word available (╥﹏╥)'));
+    }
+    // If set word does not contain valid defintion, it is called again. If it fails more than 6 times, calls function which sets word with no definition.
+    useEffect(()=>{
+        if(failNum >= 6){
+            fetchWithNoDefinition()
+        }
+        else if(randomWord.includes('#failed')){
+            fetchDefinition();
+        }
+    }, [randomWord]);
 
     // UseEffect hook references dom and creates an animation for the random characters at intervals via multiplicative timeout function
     useEffect(() => {
@@ -77496,19 +77548,25 @@ const Dictionary = () => {
         }
       }, [charactersArray]);
 
-          //if 'inputGuess' word length greater than 12, container will scaled to fit better in screen
+    //if 'inputGuess' word length greater than 12, container will scaled to fit better in screen
     useEffect(()=>{
         const randomContainer = document.getElementsByClassName('randomWord-container')[0]
         if(randomWord.length >= 10 && window.screen.width < 540){
             randomContainer.style.transform = 'scale(0.45)'
         }
-    },[randomWord])
+    },[randomWord]);
 
     return(
-        <div className='randomWord-container' ref={containerRef}>
-            {charactersArray.map((letter, index) => {
-                return <p className='randomWord' key={index}>{letter}</p>
-            })}
+        <div className='dictionary'>
+            <div className='randomWord-container' ref={containerRef}>
+                {charactersArray.map((letter, index) => {
+                    return <p className='randomWord' key={index}>{letter}</p>
+                })}
+            </div>
+            <div className='definition-container'>
+                <p className='definition-title'>Definition</p>
+                <p className='definition-text'>{definition}</p>                
+            </div>
         </div>
     )
 

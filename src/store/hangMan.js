@@ -6,12 +6,13 @@ export const hangManGame = createSlice({
     name: "hangMan",
 
     initialState: {
-        triesLeft: 10,
+        triesLeft: 9,
         win: false,
         guessWord: '',
         currentLetter: '?',
         correctInputs: 0,
         guessesRequired: 0,
+        definition: '',
     },
     reducers:{
         incorrectTry: (state) => {
@@ -31,9 +32,13 @@ export const hangManGame = createSlice({
         },
         requiredGuessesInput: (state, action) => {
             state.guessesRequired = action.payload;
+        },
+        inputDefinition: (state, action) => {
+            state.definition = action.payload;
         }
+
     }
 })
 // CreatSlice generating actions and reducer objects which I destructure. 
-export const { incorrectTry, toggleWin, inputGuessWord, inputLetter, correctInput, requiredGuessesInput } = hangManGame.actions;
+export const { incorrectTry, toggleWin, inputGuessWord, inputLetter, correctInput, requiredGuessesInput, inputDefinition } = hangManGame.actions;
 export default hangManGame.reducer;

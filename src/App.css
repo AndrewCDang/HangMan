@@ -2,20 +2,25 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
-
 .App {
   text-align: center;
 }
-
 .App-header {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  padding-bottom: 10vh;
+  padding-bottom: 3vh;
+}
+.keydown{
+  height: 100vh;
+  z-index: -1;
+  width: 100vw;
+  background-color: #fff3d5;
+  position: absolute;
 }
 .inputsContainer{
   display: flex;
@@ -24,16 +29,18 @@
   position: relative;
 }
 .displayContainer{
-  display: flex;
-  justify-content: center;
-  height: 35vh;
+  height: 20vh;
+  margin: 0 auto;
   opacity: 1;
-  /* min-height: 400px; */
+  margin-top:3.5vh;
+  margin-bottom: 3.5vh;
 }
 .svg-container{
   width: 100%;
-  transform: scale(1.5) translateY(1.8vh);
+  transform: scale(1.5);
   z-index: -1;
+  /* position: absolute; */
+  top: 0;
 }
 /* Confetti/win */
 .confetti{
@@ -96,10 +103,51 @@
 .delay rect{
   animation-delay: 3s;
 }
+/* Dictionary*/
+.definition-title{
+  width: 100vw;
+}
+.dictionary{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  justify-content:space-evenly;
+}
+.definition-text{
+  font-size: calc(8px + 1vw);
+  font-weight: bold;
+  margin-top: 8px;
+  width: 80vw;
+  left: 10vw;
+  user-select: none;
+  position: absolute;
+  text-align: center;
+}
+.no-definition{
+  font-size: calc(8px + 1vw)!important;
+  font-weight: normal!important;
+}
+.definition-container > p:first-child{
+  margin-bottom: 0;
+}
+.definition-show{
+  opacity: 1!important;
+  visibility: visible!important;
+}
+.definition-container{
+  padding-bottom: 3vh;
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in;
+
+}
 /* Random Word */
 .randomWord-container{
   display: flex;
   gap: 16px;
+  transform: translateY(3.2vh);
 }
 .randomWord-container-end{
   gap: 0px!important;
@@ -157,8 +205,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(20px + 4.5vw);
-  height: calc(20px + 4.5vw);
+  width: calc(20px + 4vw);
+  height: calc(20px + 4vw);
   overflow: hidden;
   font-size: 3vw;
   padding: calc(6px + 1vw) calc(12px + 1.5vw);
@@ -217,6 +265,9 @@
 .no-pointer{
   pointer-events: none;
 }
+.opacity-05{
+  opacity:0.5;
+}
 .keyboard-remove-2{
   transition: all 0.5s ease-in-out;
   opacity: 0;
@@ -270,7 +321,7 @@
   border-radius: 16px;
   width: 100;
   position: absolute;
-  top: -25vh;
+  top: -35vh;
   background-color: white;
   z-index: -1;
   transition: 0.5s ease-out ;
@@ -288,14 +339,14 @@
   opacity: 0;
 }
 .whiteBackground{
-  height: 100vh;
+  height: 200vh;
   width: 100vw;
   position: absolute;
   backdrop-filter: blur(10px);
   z-index: -2;
   opacity: 0;
   transition: 0.5s ease-out ;
-  top: -40vh;
+  top: -100vh;
 }
 .display-none{
   display: none;
@@ -312,18 +363,33 @@
 .heading{
   font-size: calc(8px + 8vw);
 }
+/* background-image: linear-gradient(90deg, #FF5678 0%, #05C8D4 33%, #FFD056 66%, #FF5678 100%); */
 .win-color{
-  background-image: linear-gradient(45deg, #FF5678 0%, #05C8D4 33%, #FFD056 66%, #FF5678 100%);
+  animation: win-text;
   -webkit-background-clip: text;
   color: transparent;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+@keyframes win-text{
+  0%{ background-color: #FF5678}
+  5%{ background-color: #FF5678}
+  28%{ background-color: #05C8D4}
+  33%{ background-color: #05C8D4}
+  38%{ background-color: #05C8D4}
+  61%{ background-color: #FFD056}
+  66%{ background-color: #FFD056}
+  71%{ background-color: #FFD056}
+  95%{ background-color: #FF5678}
+  100%{ background-color: #FF5678}
 }
 .replay-container{
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 50vh;
-  top: -15vh;
+  height: 66vh;
+  top: -58vh;
   z-index: -1;
   opacity: 0;
   visibility: hidden;
@@ -355,6 +421,15 @@
   opacity: 0;
   transition: all 0.5s ease-in;
 }
+.points-text{
+  color: black!important;
+}
+.points-sub-text{
+  color: rgb(160, 160, 160)!important;
+}
+.points-num{
+  font-size: calc(32px + 4vw);
+}
 /* Css personal template */
 .redtext {
   color: #FF5678;
@@ -380,13 +455,19 @@
 .greyBackground {
   background-color: darkgray;
 }
+/* Reloadbtn */
+#reloadBtn:hover{
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+  transform: rotate(-360deg);
+}
 
 @media screen and (max-width: 540px) {
   .keyboard-parent{
     transform: scale(0.7) translateY(-4vh)
   }
   .randomWord-container{
-    transform: scale(0.55);
+    transform: scale(0.55) translateY(6vh);
   }
   .svg-container{
     transform: scale(1.2) translateY(6vh)
@@ -396,5 +477,30 @@
   }
   .instructions-container{
     width: 90vw;
+    top: -50vh;
+  }
+  .additional-container{
+    transform: scale(0.75);
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .keyboard-parent{
+    transform: scale(0.7) translateY(-2.5vh)
+  }
+  .randomWord-container{
+    transform: scale(0.42) translateY(20vh);
+  }
+  .svg-container{
+    transform: scale(1) translateY(-1vh)
+  }
+  .additional-container{
+    transform: scale(0.85);
+  }
+  .instructions-container{
+    width: 90vw;
+  }
+  .additional-container{
+    transform: scale(0.75);
   }
 }

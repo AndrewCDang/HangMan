@@ -1,27 +1,77 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { correctInput, requiredGuessesInput, toggleWin, incorrectTry } from '../store/hangMan';
-
+import correct from '../sounds/correct.wav';
+import incorrect from '../sounds/incorrect.wav';
+import bonk from '../sounds/bonk.flac';
+import scatter from '../sounds/scatter.wav';
+import sweep from '../sounds/sweep.wav';
+import win from '../sounds/win.wav';
+import drum from '../sounds/drumRoll.wav';
+import score from '../sounds/score.wav'
 
 const Tracker = () => {
     // Getting state values
     const dispatch = useDispatch();
     const guessWord = useSelector(state => state.hangManGame.guessWord);
-    const inputLetter = useSelector(state => state.hangManGame.currentLetter);
     const correctGuesses = useSelector(state => state.hangManGame.correctInputs);
     const guessesRequired = useSelector(state => state.hangManGame.guessesRequired);
-    const triesLeft = useSelector(state => state.hangManGame.triesLeft )
-    const winCheck = useSelector(state => state.hangManGame.win)
+    const triesLeft = useSelector(state => state.hangManGame.triesLeft );
+    const winCheck = useSelector(state => state.hangManGame.win);
 
+    // Importing Sounds
+    const correctSound = () => {
+        const correctAudio = new Audio(correct)
+        correctAudio.volume = 0.05;
+        correctAudio.play()
+    }
+    const incorrectSound = () => {
+        const incorrectAudio = new Audio(incorrect)
+        incorrectAudio.volume = 0.15;
+        incorrectAudio.play()
+    }
+    const bonkSound = () => {
+        const bonkSound = new Audio(bonk);
+        bonkSound.volume = 0.15
+        bonkSound.play()
+    }
+    const scatterSound = () => {
+        const scatterSound = new Audio(scatter);
+        scatterSound.volume = 0.15
+        scatterSound.play()
+    }
+    const sweepSound = () => {
+        const sweepSound = new Audio(sweep);
+        sweepSound.volume = 0.15
+        sweepSound.play()
+    }
+    const winSound = () => {
+        const winSound = new Audio(win);
+        winSound.volume = 0.15
+        winSound.play()
+    }
+    const drumRoll = () => {
+        const drumRoll = new Audio(drum);
+        drumRoll.volume = 0.05
+        drumRoll.play()
+    }
+    const scoreSound = () => {
+        const scoreSound = new Audio(score)
+        scoreSound.volume = 0.05;
+        scoreSound.play()
+    }
 
     // Function at end game- Combining Letters animation
     const endGame = () =>{
         const allLetters = [...document.getElementsByClassName('randomWord')];
         const lettersContainer = document.getElementsByClassName('randomWord-container')[0];
         lettersContainer.classList.add('randomWord-container-end');
+        sweepSound();
         for(let i=0; i<allLetters.length;i++){
             allLetters[i].classList.add('randomWord-end')
         }
+        const hint = document.getElementsByClassName('definition-container')[0];
+        hint.classList.add('definition-show');
     }
     // Randomiser function
     function getRandomArbitrary(min, max) {
@@ -39,30 +89,23 @@ const Tracker = () => {
         dispatch(requiredGuessesInput(charArray.length));
     },[guessWord])
 
+    // Use effect checks if clicked input matches character of guess word and applies correct/incorrect style accordingly.
     // Updating correctInput number if input character matches a character from the guess word.
     // If input is not correct, incorrectTry state is updated +1
-    useEffect(()=>{
-        if(guessWord.includes(inputLetter)){
-            dispatch(correctInput())
-        }else{
-            dispatch(incorrectTry())
-        }
 
-        // Statement checking if number of correct inputs matches number of requried correct inputs
-        // If matching, set 'win' state to true. I have to add '1' to correct guesses because both if statements are computed at the same time.
-        if((correctGuesses + 1) == guessesRequired && guessesRequired !== 0){
-            dispatch(toggleWin())
-        }
-    },[inputLetter])
-
-    // Use effect that is dependement on 'guessword' state initially. Checks if clicked input matches character of guess word and applies style accordingly.
     useEffect(()=>{
         const inputCheck = (e) => {
             if (guessWord.includes(e.target.innerText.toLowerCase())) {
                 e.target.classList.add("correct-input");
+                correctSound();
+                // Calls function which matches input letter to hidden letters
+                dispatch(correctInput())
                 displayLetters(e.target.innerText.toLowerCase())
             }else{
                 e.target.classList.add("incorrect-input");
+                dispatch(incorrectTry())
+                incorrectSound()
+
             }
         };
         const displayLetters = (letter) => {
@@ -70,6 +113,7 @@ const Tracker = () => {
             const matchedLetters = allLetters.filter((item)=>{
                 return item.innerText == letter;
             })
+            // Reveals all instances of matched letter
             for(let i=0; i<matchedLetters.length; i++){
                 matchedLetters[i].classList.add('displayWord')
             }
@@ -105,26 +149,41 @@ const Tracker = () => {
                 keyboard[i].classList.add('no-pointer')
             }
             // Displaying remaining hidden words after delay
-            setInterval(()=>{
+            setTimeout(()=>{
                 for(let i=0; i < remainingLetters.length; i++){
                     remainingLetters[i].classList.add('displayWord-defeat')
                 }
                 endGame();
             },2750);
             // Clearing keyboard
-            setInterval(()=>{
+            setTimeout(()=>{
+                scatterSound();
                 for(let i=0; i<keyboard.length; i++){
                     const delay = getRandomArbitrary(0,1000);
-                    setInterval(()=>{
+                    setTimeout(()=>{
                         keyboard[i].classList.add('keyboard-remove')
                     },delay)
-                }
+                };
             },5800)
+            // Syncing bonk sounds to animation
+            setTimeout(()=>{
+                bonkSound()
+            },4900)
+            setTimeout(()=>{
+                bonkSound()
+            },5950)
             
         }
     },[triesLeft])
 
-    // Use effect that that executes code when 'win'' state = true.
+    // Conditions to win game, if met, toggleWin state.
+    useEffect(()=>{
+        if(correctGuesses == guessesRequired && guessesRequired !==0){
+            dispatch(toggleWin())
+        };
+    },[correctGuesses])
+
+    // Use effect that that executes function 'endGame()' when 'win'' state = true.
     useEffect(()=>{
         if(winCheck){
             // Disables further input
@@ -136,6 +195,13 @@ const Tracker = () => {
             }
             additional.classList.add('keyboard-remove-2')
             endGame();
+            winSound();
+            setTimeout(()=>{
+                drumRoll()
+            },1500)
+            setTimeout(()=>{
+                scoreSound()
+            },3310)
         };
 
     },[winCheck])

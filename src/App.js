@@ -8,20 +8,21 @@ import Additional from './components/additional';
 import Instructions from './components/instructions';
 import Background from './components/background';
 import Replay from './components/replay'
-
-
-
+import Keydown from './components/keydown'
 
 function App() {
-
+  
   return (
     <div className="App">
       <header className="App-header">
         <div className='displayContainer'>
+          {/*  */}
           <HangManSvg />
         </div>
         <div className='inputsContainer'>
           <Dictionary />
+        </div>
+        <div className='inputsContainer'>
           <Keyboard />
           <Instructions />
           <Replay />

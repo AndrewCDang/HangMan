@@ -3,7 +3,6 @@
 import Confetti1 from './confetti1';
 import Confetti2 from './confetti2';
 import Confetti3 from './confetti3';
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 
@@ -16,9 +15,9 @@ const WinState = () => {
         return (Math.random() * (max - min) + min);
     }
     let winItems = [];
-    for(let i=0; i<80; i++){
+    for(let i=0; i<250; i++){
         // Assigning animation delay for each element
-        const delay = getRandomArbitrary(0,3000).toFixed()
+        const delay = getRandomArbitrary(0,25000).toFixed()
          // Assign random animation (1-3)
         let winAnimation;
         const randomAni = getRandomArbitrary(1, 3).toFixed()
