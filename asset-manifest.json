@@ -1,13 +1,21 @@
 {
   "files": {
-    "main.css": "/HangMan/static/css/main.3eb13784.css",
-    "main.js": "/HangMan/static/js/main.b60c2ced.js",
+    "main.css": "/HangMan/static/css/main.81b7b9b0.css",
+    "main.js": "/HangMan/static/js/main.b2c44a87.js",
     "static/js/787.3ecd7fac.chunk.js": "/HangMan/static/js/787.3ecd7fac.chunk.js",
+    "static/media/win.wav": "/HangMan/static/media/win.df91ffc7f05887566cde.wav",
+    "static/media/correct.wav": "/HangMan/static/media/correct.a811e2247b69ac61d4df.wav",
+    "static/media/scatter.wav": "/HangMan/static/media/scatter.fb85f805e6cda6cc8a4a.wav",
+    "static/media/score.wav": "/HangMan/static/media/score.a2999f82d61b42aca54c.wav",
+    "static/media/drumRoll.wav": "/HangMan/static/media/drumRoll.3a57a829e62d01325700.wav",
+    "static/media/sweep.wav": "/HangMan/static/media/sweep.f3d0d2e90ac67010515e.wav",
+    "static/media/bonk.flac": "/HangMan/static/media/bonk.c73f018a625625f7d577.flac",
     "static/media/state-09-01.svg": "/HangMan/static/media/state-09-01.cfa5232d8e074055503060afaba084fb.svg",
     "static/media/state-08-01.svg": "/HangMan/static/media/state-08-01.37a01921d3ca6f04aa8b7afe7e0df5a2.svg",
     "static/media/state-06-01.svg": "/HangMan/static/media/state-06-01.290e9ee9c7f18458d7eef749823ad2c5.svg",
     "static/media/state-07-01.svg": "/HangMan/static/media/state-07-01.088148e43e135caf79b85a85dd43750f.svg",
     "static/media/state-05-01.svg": "/HangMan/static/media/state-05-01.b5f22ac7faceb76e4a2d1dc9820e2dd3.svg",
+    "static/media/incorrect.wav": "/HangMan/static/media/incorrect.d06d771a9dc497567ad7.wav",
     "static/media/state-04-01.svg": "/HangMan/static/media/state-04-01.533c203f95460654bcae3a2ad548ca40.svg",
     "static/media/state-3-01.svg": "/HangMan/static/media/state-3-01.306e7e7e83920136c2cc9a612bb49776.svg",
     "static/media/state-2-01.svg": "/HangMan/static/media/state-2-01.7f86832baf8b20de16a6ad492e5f17a3.svg",
@@ -16,12 +24,12 @@
     "static/media/Confetti-1-b.svg": "/HangMan/static/media/Confetti-1-b.cababa5ef47e74fe0985147a689b43fa.svg",
     "static/media/Confetti-2-b.svg": "/HangMan/static/media/Confetti-2-b.e4202c13e13a58cc2a47e8f4ad888659.svg",
     "static/media/Confetti-3-b.svg": "/HangMan/static/media/Confetti-3-b.c684028fb43a2550b0eac1bb5247dd73.svg",
-    "main.3eb13784.css.map": "/HangMan/static/css/main.3eb13784.css.map",
-    "main.b60c2ced.js.map": "/HangMan/static/js/main.b60c2ced.js.map",
+    "main.81b7b9b0.css.map": "/HangMan/static/css/main.81b7b9b0.css.map",
+    "main.b2c44a87.js.map": "/HangMan/static/js/main.b2c44a87.js.map",
     "787.3ecd7fac.chunk.js.map": "/HangMan/static/js/787.3ecd7fac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3eb13784.css",
-    "static/js/main.b60c2ced.js"
+    "static/css/main.81b7b9b0.css",
+    "static/js/main.b2c44a87.js"
   ]
 }
