@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/HangMan/static/css/main.00e56f8a.css",
-    "main.js": "/HangMan/static/js/main.b2c44a87.js",
+    "main.css": "/HangMan/static/css/main.0f1dec66.css",
+    "main.js": "/HangMan/static/js/main.dc9b5fc9.js",
     "static/js/787.3ecd7fac.chunk.js": "/HangMan/static/js/787.3ecd7fac.chunk.js",
     "static/media/win.wav": "/HangMan/static/media/win.df91ffc7f05887566cde.wav",
     "static/media/correct.wav": "/HangMan/static/media/correct.a811e2247b69ac61d4df.wav",
@@ -24,12 +24,12 @@
     "static/media/Confetti-1-b.svg": "/HangMan/static/media/Confetti-1-b.cababa5ef47e74fe0985147a689b43fa.svg",
     "static/media/Confetti-2-b.svg": "/HangMan/static/media/Confetti-2-b.e4202c13e13a58cc2a47e8f4ad888659.svg",
     "static/media/Confetti-3-b.svg": "/HangMan/static/media/Confetti-3-b.c684028fb43a2550b0eac1bb5247dd73.svg",
-    "main.00e56f8a.css.map": "/HangMan/static/css/main.00e56f8a.css.map",
-    "main.b2c44a87.js.map": "/HangMan/static/js/main.b2c44a87.js.map",
+    "main.0f1dec66.css.map": "/HangMan/static/css/main.0f1dec66.css.map",
+    "main.dc9b5fc9.js.map": "/HangMan/static/js/main.dc9b5fc9.js.map",
     "787.3ecd7fac.chunk.js.map": "/HangMan/static/js/787.3ecd7fac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.00e56f8a.css",
-    "static/js/main.b2c44a87.js"
+    "static/css/main.0f1dec66.css",
+    "static/js/main.dc9b5fc9.js"
   ]
 }
