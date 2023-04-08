@@ -73,6 +73,7 @@ const Tracker = () => {
         const hint = document.getElementsByClassName('definition-container')[0];
         hint.classList.add('definition-show');
     }
+
     // Randomiser function
     function getRandomArbitrary(min, max) {
         return (Math.random() * (max - min) + min);
@@ -94,13 +95,17 @@ const Tracker = () => {
     // If input is not correct, incorrectTry state is updated +1
 
     useEffect(()=>{
+        
         const inputCheck = (e) => {
-            if (guessWord.includes(e.target.innerText.toLowerCase())) {
+            // e.preventDefault();
+            // alert(e.target.textContent.toLowerCase())
+
+            if (guessWord.includes(e.target.textContent.toLowerCase())) {
                 e.target.classList.add("correct-input");
                 correctSound();
                 // Calls function which matches input letter to hidden letters
                 dispatch(correctInput())
-                displayLetters(e.target.innerText.toLowerCase())
+                displayLetters(e.target.textContent.toLowerCase())
             }else{
                 e.target.classList.add("incorrect-input");
                 dispatch(incorrectTry())
@@ -111,7 +116,7 @@ const Tracker = () => {
         const displayLetters = (letter) => {
             const allLetters = [...document.getElementsByClassName('randomWord')]
             const matchedLetters = allLetters.filter((item)=>{
-                return item.innerText == letter;
+                return item.textContent == letter;
             })
             // Reveals all instances of matched letter
             for(let i=0; i<matchedLetters.length; i++){
@@ -124,11 +129,20 @@ const Tracker = () => {
         keyBtns[i].addEventListener("click", inputCheck);
         }
 
-        //Cleanup function removes the event listener
+        const mobileKeyBtns = document.getElementsByClassName("keyboard-item");
+        for (let i = 0; i < mobileKeyBtns.length; i++) {
+            mobileKeyBtns[i].addEventListener("touchstart", inputCheck);
+        }
+
+        // Cleanup function removes the event listener
         return () => {
             for (let i = 0; i < keyBtns.length; i++) {
             keyBtns[i].removeEventListener("click", inputCheck);
             }
+
+            for (let i = 0; i < mobileKeyBtns.length; i++) {
+                mobileKeyBtns[i].removeEventListener("touchstart", inputCheck);
+                }
         };
     },[guessWord])
 

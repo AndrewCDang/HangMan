@@ -15,7 +15,8 @@ const WinState = () => {
         return (Math.random() * (max - min) + min);
     }
     let winItems = [];
-    for(let i=0; i<250; i++){
+    const confettiNum = "ontouchstart" in document.documentElement ? 10 : 250;
+    for(let i=0; i<confettiNum; i++){
         // Assigning animation delay for each element
         const delay = getRandomArbitrary(0,25000).toFixed()
          // Assign random animation (1-3)
